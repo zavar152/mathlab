@@ -1,7 +1,6 @@
 package itmo.zavar.mathlab.lab.lab1.model;
 
-import com.google.common.base.Utf8;
-import com.sun.org.apache.bcel.internal.generic.ARETURN;
+import com.sun.istack.internal.NotNull;
 import itmo.zavar.mathlab.workspace.common.MathObject;
 
 import java.io.ByteArrayOutputStream;
@@ -64,11 +63,119 @@ public final class Matrix implements MathObject {
         return cols;
     }
 
+    public boolean isEmpty() {
+        return elements.length == 0;
+    }
+
     public boolean isSquare() {
         return rows == cols;
     }
 
-    public static Matrix subMatrix(Matrix matrix, String newName, int excludeRow, int excludeCol) {
+    public boolean isRectangle() {
+        return rows != cols;
+    }
+
+    public boolean isRow() {
+        return rows == 1;
+    }
+
+    public boolean isColumn() {
+        return cols == 1;
+    }
+
+    public boolean isSingleton() {
+        return rows == 1 && cols == 1;
+    }
+
+    public boolean isNull() {
+        for (int i = 0; i < rows * cols; i++) {
+            if (elements[i / cols][i % cols] != 0)
+                return false;
+        }
+        return true;
+    }
+
+    public boolean isDiagonal() {
+        if (!isSquare())
+            return false;
+
+        for (int i = 0; i < rows * cols; i++) {
+            if (i / cols != i % cols && elements[i / cols][i % cols] != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isScalar() {
+        if (!isSquare() && !isDiagonal())
+            return false;
+        for (int i = 0; i < rows - 1; i++) {
+            if (elements[i][i] != elements[i + 1][i + 1])
+                return false;
+        }
+        return true;
+    }
+
+    public boolean isIdentity() {
+        if (!isSquare() && !isDiagonal())
+            return false;
+        for (int i = 0; i < rows - 1; i++) {
+            if (elements[i][i] != 1)
+                return false;
+        }
+        return true;
+    }
+
+    public boolean isSymmetric() {
+        if (!isSquare())
+            return false;
+        for (int i = 0; i < rows * cols; i++) {
+            if (i / cols != i % cols && elements[i / cols][i % cols] != elements[i % cols][i / cols]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isAntiSymmetric() {
+        if (!isSquare())
+            return false;
+        for (int i = 0; i < rows * cols; i++) {
+            if (i / cols != i % cols && elements[i / cols][i % cols] != -elements[i % cols][i / cols]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isLowerTriangular() {
+        if (!isSquare())
+            return false;
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = i + 1; j < rows; j++) {
+                if (elements[i][j] != 0)
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isUpperTriangular() {
+        if (!isSquare())
+            return false;
+
+        for (int i = 1; i < rows; i++) {
+            for (int j = 0; j < i; j++) {
+                if (elements[i][j] != 0)
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    public static Matrix subMatrix(@NotNull Matrix matrix, String newName, int excludeRow, int excludeCol) {
         Matrix result = new Matrix(newName, matrix.getRowsCount() - 1, matrix.getColumnsCount() - 1);
 
         for (int row = 0, p = 0; row < matrix.getRowsCount(); row++) {
@@ -89,10 +196,8 @@ public final class Matrix implements MathObject {
     public Matrix transpose(String name) {
         Matrix result = new Matrix(name, cols, rows);
 
-        for (int row = 0; row < rows; row++) {
-            for (int col = 0; col < cols; col++) {
-                result.set(elements[row][col], col, row);
-            }
+        for (int i = 0; i < rows * cols; i++) {
+            result.set(elements[i / cols][i % cols], i % cols, i / cols);
         }
 
         return result;
@@ -106,7 +211,7 @@ public final class Matrix implements MathObject {
         }
     }
 
-    private double determinant0(Matrix matrix) {
+    private double determinant0(@NotNull Matrix matrix) {
         if (matrix.cols == 1) {
             return matrix.getElements()[0][0];
         } else if (matrix.cols == 2) {
@@ -126,7 +231,7 @@ public final class Matrix implements MathObject {
         }
     }
 
-    public void print(OutputStream outputStream) {
+    public void print(@NotNull OutputStream outputStream) {
         PrintStream writer = new PrintStream(outputStream);
         for (int row = 0; row < rows; row++) {
             writer.print("[");
@@ -138,6 +243,10 @@ public final class Matrix implements MathObject {
             }
             writer.println("]");
         }
+    }
+
+    public long order() {
+        return (long) cols * (long) rows;
     }
 
     @Override

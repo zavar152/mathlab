@@ -2,7 +2,7 @@ package itmo.zavar.mathlab;
 
 import itmo.zavar.mathlab.interpreter.ConsoleInterpreter;
 import itmo.zavar.mathlab.lab.lab1.model.Matrix;
-import itmo.zavar.mathlab.lab.lab1.model.MatrixUtils;
+import itmo.zavar.mathlab.lab.lab1.model.MatrixCreator;
 import itmo.zavar.mathlab.workspace.AbstractWorkspace;
 import itmo.zavar.mathlab.workspace.WorkspaceInitializer;
 
@@ -12,12 +12,10 @@ import java.util.Arrays;
 public class Launcher {
     public static void main(String[] args) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
 
-        double[][] test = {{1,2,3},{4,5,6},{7,8,9}};
-        Matrix matrix = new Matrix("test", test);
+        Matrix test = MatrixCreator.fromString("name", "1 3 2\n-3 6 2\n-2 -2 -4");
 
-        Arrays.stream(matrix.getColumn(2)).forEach(System.out::println);
-
-        System.out.println(matrix);
+        System.out.println(test.isAntiSymmetric());
+        System.out.println(test);
 
         Integer id = WorkspaceInitializer.getWorkspaceId();
         AbstractWorkspace workspace = WorkspaceInitializer.createWorkspace(id);
