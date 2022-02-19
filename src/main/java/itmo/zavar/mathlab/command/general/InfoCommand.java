@@ -3,7 +3,6 @@ package itmo.zavar.mathlab.command.general;
 import itmo.zavar.mathlab.annotation.CommandGeneral;
 import itmo.zavar.mathlab.command.AbstractCommand;
 import itmo.zavar.mathlab.exception.CommandException;
-import itmo.zavar.mathlab.lab.lab1.model.Matrix;
 import itmo.zavar.mathlab.workspace.AbstractWorkspace;
 
 import java.io.InputStream;

@@ -1,8 +1,5 @@
-package itmo.zavar.mathlab.lab.lab1.model;
+package itmo.zavar.mathlab.lab.lab1.model.matrix;
 
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -28,7 +25,6 @@ public final class MatrixCreator {
     }
 
     public static Matrix fromString(String name, String matrixString) throws IllegalArgumentException {
-
         String[] rowsString = matrixString.split("\n");
         int rows = rowsString.length;
         int cols = rowsString[0].split(" ").length;
@@ -80,7 +76,7 @@ public final class MatrixCreator {
         Matrix matrix = new Matrix(name, size, size + 1);
         for (int i = 0; i < size * (size + 1); i++) {
             double temp = 0;
-            if(i / (size + 1) == i % (size + 1)) {
+            if (i / (size + 1) == i % (size + 1)) {
                 while (temp == 0) {
                     temp = minValue + (maxValue - minValue) * r.nextDouble();
                 }

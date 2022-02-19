@@ -1,4 +1,4 @@
-package itmo.zavar.mathlab.lab.lab1.model;
+package itmo.zavar.mathlab.lab.lab1.model.matrix;
 
 import com.sun.istack.internal.NotNull;
 import itmo.zavar.mathlab.workspace.common.MathObject;
@@ -35,6 +35,10 @@ public final class Matrix implements MathObject {
         return elements;
     }
 
+    public double[][] getCopyElements() {
+        return Arrays.copyOf(elements, elements.length);
+    }
+
     public double get(int row, int col) {
         return elements[row][col];
     }
@@ -53,6 +57,22 @@ public final class Matrix implements MathObject {
             column[i] = elements[i][j];
         }
         return column;
+    }
+
+    public Matrix getWithoutRow(int ren) {
+        double[][] matrix2 = new double[elements.length - 1][elements[0].length];
+        int p = 0;
+        for (int i = 0; i < elements.length; ++i) {
+            if (i == ren)
+                continue;
+            int q = 0;
+            for (int j = 0; j < elements[0].length; ++j) {
+                matrix2[p][q] = elements[i][j];
+                ++q;
+            }
+            ++p;
+        }
+        return new Matrix(name, matrix2);
     }
 
     public int getRowsCount() {
@@ -201,6 +221,14 @@ public final class Matrix implements MathObject {
         }
 
         return result;
+    }
+
+    public void exchangeRows(int from, int to) {
+        for (int i = 0; i < elements[0].length; i++) {
+            double temp = elements[from - 1][i];
+            elements[from - 1][i] = elements[to - 1][i];
+            elements[to - 1][i] = temp;
+        }
     }
 
     public double determinant() {
