@@ -10,11 +10,14 @@ import java.util.Comparator;
 public final class GaussAlgorithm {
 
     public static Matrix calculate(@NotNull Matrix equationsSystem) {
-        pivoting(equationsSystem, 0);
-        System.out.println(equationsSystem);
-        pivoting(equationsSystem, 1);
-        System.out.println(equationsSystem);
-
+        for(int i = 0; i < equationsSystem.getRowsCount() - 1; i++) {
+            pivoting(equationsSystem, i);
+            System.out.println(equationsSystem);
+            normalization(equationsSystem, i);
+            System.out.println(equationsSystem);
+            subtract(equationsSystem, i);
+            System.out.println(equationsSystem);
+        }
         return null;
     }
 
@@ -30,8 +33,23 @@ public final class GaussAlgorithm {
             System.arraycopy(copy, 0, equationsSystem.getElements(), col, equationsSystem.getRowsCount() - 1 + col - col);
     }
 
-    private static void normalization(@NotNull Matrix equationsSystem) {
+    private static void normalization(@NotNull Matrix equationsSystem, int col) {
+        int cols = equationsSystem.getColumnsCount();
+        for (int i = 0; i < equationsSystem.order(); i++) {
+            double k = equationsSystem.get(i / cols, col);
+            equationsSystem.set(equationsSystem.get(i / cols, i % cols)/k, i / cols, i % cols);
+        }
+    }
 
+    private static void subtract(@NotNull Matrix equationsSystem, int r) {
+        double[] row = equationsSystem.getRow(r);
+        for(int i = 0; i < equationsSystem.getRowsCount(); i++) {
+            if(i != r) {
+                for(int j = 0; j < equationsSystem.getColumnsCount(); j++) {
+                    equationsSystem.getElements()[i][j] = equationsSystem.getElements()[i][j] - row[j];
+                }
+            }
+        }
     }
 
 }
