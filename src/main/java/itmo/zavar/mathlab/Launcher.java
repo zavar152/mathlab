@@ -12,9 +12,7 @@ import java.util.Arrays;
 public class Launcher {
     public static void main(String[] args) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
 
-        Matrix test = MatrixCreator.fromString("name", "1 3 2\n-3 6 2\n-2 -2 -4");
-
-        System.out.println(test.isAntiSymmetric());
+        Matrix test = MatrixCreator.getRandomMatrixForGauss("Matrix", 5, -10, 10);
         System.out.println(test);
 
         Integer id = WorkspaceInitializer.getWorkspaceId();

@@ -75,4 +75,21 @@ public final class MatrixCreator {
         return matrix;
     }
 
+    public static Matrix getRandomMatrixForGauss(String name, int size, double maxValue, double minValue) {
+        Random r = new Random();
+        Matrix matrix = new Matrix(name, size, size + 1);
+        for (int i = 0; i < size * (size + 1); i++) {
+            double temp = 0;
+            if(i / (size + 1) == i % (size + 1)) {
+                while (temp == 0) {
+                    temp = minValue + (maxValue - minValue) * r.nextDouble();
+                }
+            } else {
+                temp = minValue + (maxValue - minValue) * r.nextDouble();
+            }
+            matrix.getElements()[i / (size + 1)][i % (size + 1)] = temp;
+        }
+        return matrix;
+    }
+
 }
