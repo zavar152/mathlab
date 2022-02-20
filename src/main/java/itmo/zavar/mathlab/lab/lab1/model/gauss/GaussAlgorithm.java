@@ -4,21 +4,23 @@ import com.sun.istack.internal.NotNull;
 import itmo.zavar.mathlab.lab.lab1.model.matrix.Matrix;
 import itmo.zavar.mathlab.lab.lab1.model.matrix.MatrixCreator;
 
-import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 public final class GaussAlgorithm {
 
     public static GaussResult calculate(@NotNull Matrix equationsSystem) {
         Matrix copy = equationsSystem.copy();
         double det0 = equationsSystem.determinant();
+        long start = System.nanoTime();
         for(int i = 0; i < equationsSystem.getRowsCount() - 1; i++) {
             pivoting(equationsSystem, i);
             normalizationAndSubtract(equationsSystem, i);
         }
-        double det1 = equationsSystem.determinant();
         Matrix x = getAnswer(equationsSystem);
+        long time = System.nanoTime() - start;
         Matrix discrepancy = getDiscrepancy(copy, x.getColumn(0));
-        return null;
+        double det1 = equationsSystem.determinant();
+        return new GaussResult(equationsSystem, x, discrepancy, det0, det1, time);
     }
 
     private static void pivoting(@NotNull Matrix equationsSystem, int col) {
