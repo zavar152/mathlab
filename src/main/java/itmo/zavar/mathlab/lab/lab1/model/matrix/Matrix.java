@@ -47,12 +47,16 @@ public final class Matrix implements MathObject {
         elements[row][col] = value;
     }
 
+    public Matrix copy() {
+        return new Matrix(name, getCopyElements());
+    }
+
     public double[] getRow(int i) {
         return elements[i];
     }
 
     public double[] getColumn(int j) {
-        double[] column = new double[cols];
+        double[] column = new double[cols - 1];
         for (int i = 0; i < column.length; i++) {
             column[i] = elements[i][j];
         }
@@ -225,9 +229,9 @@ public final class Matrix implements MathObject {
 
     public void exchangeRows(int from, int to) {
         for (int i = 0; i < elements[0].length; i++) {
-            double temp = elements[from - 1][i];
-            elements[from - 1][i] = elements[to - 1][i];
-            elements[to - 1][i] = temp;
+            double temp = elements[from][i];
+            elements[from][i] = elements[to ][i];
+            elements[to][i] = temp;
         }
     }
 

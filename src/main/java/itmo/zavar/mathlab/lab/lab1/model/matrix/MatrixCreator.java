@@ -8,7 +8,7 @@ public final class MatrixCreator {
     public static Matrix fromColumn(String name, double[] column) {
         double[][] elements = new double[column.length][1];
         for (int i = 0; i < column.length; i++) {
-            elements[i][1] = column[i];
+            elements[i][0] = column[i];
         }
         return new Matrix(name, elements);
     }

@@ -5,65 +5,67 @@ import itmo.zavar.mathlab.lab.lab1.model.matrix.Matrix;
 import itmo.zavar.mathlab.lab.lab1.model.matrix.MatrixCreator;
 
 import java.util.Arrays;
-import java.util.Comparator;
 
 public final class GaussAlgorithm {
 
-    public static Matrix calculate(@NotNull Matrix equationsSystem) {
+    public static GaussResult calculate(@NotNull Matrix equationsSystem) {
+        Matrix copy = equationsSystem.copy();
+        double det0 = equationsSystem.determinant();
         for(int i = 0; i < equationsSystem.getRowsCount() - 1; i++) {
             pivoting(equationsSystem, i);
-            System.out.println(equationsSystem);
-            normalization(equationsSystem, i);
-            System.out.println(equationsSystem);
-            subtract(equationsSystem, i);
-            System.out.println(equationsSystem);
+            normalizationAndSubtract(equationsSystem, i);
         }
-        System.out.println(Arrays.toString(getAnswer(equationsSystem)));
+        double det1 = equationsSystem.determinant();
+        Matrix x = getAnswer(equationsSystem);
+        Matrix discrepancy = getDiscrepancy(copy, x.getColumn(0));
         return null;
     }
 
     private static void pivoting(@NotNull Matrix equationsSystem, int col) {
-        double[][] copy;
-        if(col == 0) {
-            copy = equationsSystem.getCopyElements();
-        } else {
-            copy = equationsSystem.getWithoutRow(col - 1).getCopyElements();
+        double[] column = equationsSystem.getColumn(col);
+        int maxAt = 0;
+        for (int i = col; i < column.length; i++) {
+            maxAt = Math.abs(column[i]) > column[maxAt] ? i : maxAt;
         }
-        Arrays.sort(copy, (entry1, entry2) -> -Double.compare(entry1[col], entry2[col]));
-        if (equationsSystem.getRowsCount() - 1 >= 0)
-            System.arraycopy(copy, 0, equationsSystem.getElements(), col, equationsSystem.getRowsCount() - 1 + col - col);
+        equationsSystem.exchangeRows(maxAt, col);
     }
 
-    private static void normalization(@NotNull Matrix equationsSystem, int col) {
-        for(int i = 0; i < equationsSystem.getRowsCount(); i++) {
-            double k = equationsSystem.get(i, col);
-            for(int j = 0; j < equationsSystem.getColumnsCount(); j++) {
-                equationsSystem.set(equationsSystem.get(i, j)/k, i, j);
+    private static void normalizationAndSubtract(@NotNull Matrix equationsSystem, int r) {
+        double[][] elements = equationsSystem.getElements();
+        for(int i = r + 1; i < equationsSystem.getRowsCount(); i++) {
+            double f = elements[i][r] / elements[r][r];
+            for(int j = r + 1; j <= equationsSystem.getRowsCount(); j++) {
+                elements[i][j] -= elements[r][j] * f;
             }
+            elements[i][r] = 0;
         }
     }
 
-    private static void subtract(@NotNull Matrix equationsSystem, int r) {
-        double[] row = equationsSystem.getRow(r);
-        int cols = equationsSystem.getColumnsCount();
-        for(int i = 0; i < equationsSystem.order(); i++) {
-            if(i / cols == r)
-                continue;
-            equationsSystem.getElements()[i / cols][i % cols] = equationsSystem.getElements()[i / cols][i % cols] - row[i % cols];
-        }
-    }
-
-    private static double[] getAnswer(@NotNull Matrix equationsSystem) {
+    private static Matrix getAnswer(@NotNull Matrix equationsSystem) {
         double[][] elements = equationsSystem.getElements();
         double[] x = new double[equationsSystem.getRowsCount()];
-        for(int i = equationsSystem.getRowsCount() - 1; i >= 0; i--) {
-            x[i] = elements[i][equationsSystem.getRowsCount()];
-            for(int j = i + 1; j < equationsSystem.getRowsCount(); j++) {
+        for(int i = x.length - 1; i >= 0; i--) {
+            x[i] = elements[i][x.length];
+            for(int j = i + 1; j < x.length; j++) {
                 x[i] -= elements[i][j] * x[j];
             }
             x[i] = x[i]/elements[i][i];
         }
-        return x;
+
+        return MatrixCreator.fromColumn("X", x);
+    }
+
+    private static Matrix getDiscrepancy(@NotNull Matrix initialSystem, double[] x) {
+        double[][] elements = initialSystem.getElements();
+        double[] discrepancy = new double[initialSystem.getRowsCount()];
+        for(int k = 0; k < x.length; k++) {
+            double temp = 0;
+            for(int j = 0; j < x.length; j++) {
+                temp = temp + elements[k][j] * x[j];
+            }
+            discrepancy[k] = Math.abs(temp - elements[k][x.length]);
+        }
+        return MatrixCreator.fromColumn("Discrepancy", discrepancy);
     }
 
 }
