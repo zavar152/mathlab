@@ -18,6 +18,7 @@ public final class GaussAlgorithm {
             subtract(equationsSystem, i);
             System.out.println(equationsSystem);
         }
+        System.out.println(Arrays.toString(getAnswer(equationsSystem)));
         return null;
     }
 
@@ -34,22 +35,35 @@ public final class GaussAlgorithm {
     }
 
     private static void normalization(@NotNull Matrix equationsSystem, int col) {
-        int cols = equationsSystem.getColumnsCount();
-        for (int i = 0; i < equationsSystem.order(); i++) {
-            double k = equationsSystem.get(i / cols, col);
-            equationsSystem.set(equationsSystem.get(i / cols, i % cols)/k, i / cols, i % cols);
+        for(int i = 0; i < equationsSystem.getRowsCount(); i++) {
+            double k = equationsSystem.get(i, col);
+            for(int j = 0; j < equationsSystem.getColumnsCount(); j++) {
+                equationsSystem.set(equationsSystem.get(i, j)/k, i, j);
+            }
         }
     }
 
     private static void subtract(@NotNull Matrix equationsSystem, int r) {
         double[] row = equationsSystem.getRow(r);
-        for(int i = 0; i < equationsSystem.getRowsCount(); i++) {
-            if(i != r) {
-                for(int j = 0; j < equationsSystem.getColumnsCount(); j++) {
-                    equationsSystem.getElements()[i][j] = equationsSystem.getElements()[i][j] - row[j];
-                }
-            }
+        int cols = equationsSystem.getColumnsCount();
+        for(int i = 0; i < equationsSystem.order(); i++) {
+            if(i / cols == r)
+                continue;
+            equationsSystem.getElements()[i / cols][i % cols] = equationsSystem.getElements()[i / cols][i % cols] - row[i % cols];
         }
+    }
+
+    private static double[] getAnswer(@NotNull Matrix equationsSystem) {
+        double[][] elements = equationsSystem.getElements();
+        double[] x = new double[equationsSystem.getRowsCount()];
+        for(int i = equationsSystem.getRowsCount() - 1; i >= 0; i--) {
+            x[i] = elements[i][equationsSystem.getRowsCount()];
+            for(int j = i + 1; j < equationsSystem.getRowsCount(); j++) {
+                x[i] -= elements[i][j] * x[j];
+            }
+            x[i] = x[i]/elements[i][i];
+        }
+        return x;
     }
 
 }
