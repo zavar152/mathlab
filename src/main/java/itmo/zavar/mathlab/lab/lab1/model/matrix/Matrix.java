@@ -63,11 +63,11 @@ public final class Matrix implements MathObject {
         return column;
     }
 
-    public Matrix getWithoutRow(int ren) {
+    public Matrix getWithoutRow(int rowToRemove) {
         double[][] matrix2 = new double[elements.length - 1][elements[0].length];
         int p = 0;
         for (int i = 0; i < elements.length; ++i) {
-            if (i == ren)
+            if (i == rowToRemove)
                 continue;
             int q = 0;
             for (int j = 0; j < elements[0].length; ++j) {
@@ -77,6 +77,23 @@ public final class Matrix implements MathObject {
             ++p;
         }
         return new Matrix(name, matrix2);
+    }
+
+    public Matrix getWithoutColumn(int colToRemove) {
+        int row = elements.length;
+        int col = elements[0].length;
+
+        double[][] newMatrix = new double[row][col - 1];
+
+        for (int i = 0; i < row; i++) {
+            for (int j = 0, currColumn = 0; j < col; j++) {
+                if (j != colToRemove) {
+                    newMatrix[i][currColumn++] = elements[i][j];
+                }
+            }
+        }
+
+        return new Matrix(name, newMatrix);
     }
 
     public int getRowsCount() {
@@ -230,7 +247,7 @@ public final class Matrix implements MathObject {
     public void exchangeRows(int from, int to) {
         for (int i = 0; i < elements[0].length; i++) {
             double temp = elements[from][i];
-            elements[from][i] = elements[to ][i];
+            elements[from][i] = elements[to][i];
             elements[to][i] = temp;
         }
     }
@@ -239,28 +256,39 @@ public final class Matrix implements MathObject {
         if (rows != cols) {
             return Double.NaN;
         } else {
-            return determinant0(this);
+            return determinant0(this.elements);
         }
     }
 
-    private double determinant0(@NotNull Matrix matrix) {
-        if (matrix.cols == 1) {
-            return matrix.getElements()[0][0];
-        } else if (matrix.cols == 2) {
-            return (matrix.getElements()[0][0] * matrix.getElements()[1][1] -
-                    matrix.getElements()[0][1] * matrix.getElements()[1][0]);
-        } else {
-            double result = 0.0;
+    private double determinant0(double[][] matrix) {
+        double result = 0.0;
+        if (matrix.length == 1) {
+            result = matrix[0][0];
+            return (result);
+        }
 
-            for (int col = 0; col < matrix.cols; ++col) {
-                Matrix sub = subMatrix(matrix, matrix.name, 1, col + 1);
+        if (matrix.length == 2) {
+            result = ((matrix[0][0] * matrix[1][1]) - (matrix[0][1] * matrix[1][0]));
+            return (result);
+        }
+        double[][] temporary;
 
-                result += (Math.pow(-1, 1 + col + 1) *
-                        matrix.getElements()[0][col] * determinant0(sub));
+        for (int i = 0; i < matrix[0].length; i++) {
+            temporary = new double[matrix.length - 1][matrix[0].length - 1];
+
+            for (int j = 1; j < matrix.length; j++) {
+                for (int k = 0; k < matrix[0].length; k++) {
+                    if (k < i) {
+                        temporary[j - 1][k] = matrix[j][k];
+                    } else if (k > i) {
+                        temporary[j - 1][k - 1] = matrix[j][k];
+                    }
+                }
             }
 
-            return result;
+            result += matrix[0][i] * Math.pow(-1, (double) i) * determinant0(temporary);
         }
+        return result;
     }
 
     public void print(@NotNull OutputStream outputStream) {
