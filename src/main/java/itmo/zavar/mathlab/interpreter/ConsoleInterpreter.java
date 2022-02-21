@@ -1,5 +1,6 @@
 package itmo.zavar.mathlab.interpreter;
 
+import itmo.zavar.mathlab.exception.CommandException;
 import itmo.zavar.mathlab.workspace.AbstractWorkspace;
 
 import java.io.InputStream;
@@ -38,8 +39,10 @@ public final class ConsoleInterpreter {
                     } else {
                         errPrinter.println("Unknown command! Use 'help'");
                     }
+                } catch (CommandException e) {
+                  e.printStackTrace(errPrinter);
                 } catch (NoSuchElementException e) {
-                    System.err.println("Input stream is closed!");
+                    errPrinter.println("Input stream is closed!");
                     workspace.requiredShutdown();
                 }
             }

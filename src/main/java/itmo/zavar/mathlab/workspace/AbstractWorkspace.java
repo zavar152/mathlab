@@ -1,6 +1,7 @@
 package itmo.zavar.mathlab.workspace;
 
 import itmo.zavar.mathlab.command.AbstractCommand;
+import itmo.zavar.mathlab.exception.CommandException;
 import itmo.zavar.mathlab.workspace.common.MathObject;
 import itmo.zavar.mathlab.workspace.common.Result;
 
@@ -39,7 +40,7 @@ public abstract class AbstractWorkspace {
         return commandMap.containsKey(name);
     }
 
-    public final void executeCommand(String name, Object[] args, InputStream inStream, OutputStream outStream, OutputStream errStream) {
+    public final void executeCommand(String name, Object[] args, InputStream inStream, OutputStream outStream, OutputStream errStream) throws CommandException {
         commandMap.get(name).execute(this, args, inStream, outStream, errStream);
     }
 
