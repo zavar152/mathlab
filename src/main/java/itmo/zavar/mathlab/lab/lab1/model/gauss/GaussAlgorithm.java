@@ -3,6 +3,7 @@ package itmo.zavar.mathlab.lab.lab1.model.gauss;
 import com.sun.istack.internal.NotNull;
 import itmo.zavar.mathlab.lab.lab1.exception.GaussException;
 import itmo.zavar.mathlab.lab.lab1.exception.ZeroColumnException;
+import itmo.zavar.mathlab.lab.lab1.exception.ZeroDeterminantException;
 import itmo.zavar.mathlab.lab.lab1.model.matrix.Matrix;
 import itmo.zavar.mathlab.lab.lab1.model.matrix.MatrixCreator;
 
@@ -11,6 +12,8 @@ public final class GaussAlgorithm {
     public static GaussResult calculate(@NotNull Matrix equationsSystem) throws GaussException {
         Matrix copy = equationsSystem.copy();
         double initialDeterminant = equationsSystem.getWithoutColumn(equationsSystem.getRowsCount() - 1).determinant();
+        if(initialDeterminant == 0)
+            throw new ZeroDeterminantException("Determinant is 0, there is no solution or there are infinitely many solutions");
         long start = System.nanoTime();
         for(int i = 0; i < equationsSystem.getRowsCount() - 1; i++) {
             pivoting(equationsSystem, i);

@@ -271,6 +271,15 @@ public final class Matrix implements MathObject {
             result = ((matrix[0][0] * matrix[1][1]) - (matrix[0][1] * matrix[1][0]));
             return (result);
         }
+
+        if(isLowerTriangular() || isUpperTriangular()) {
+            result = 1;
+            for (int i = 0; i < cols; i++) {
+                result *= elements[i][i];
+            }
+            return result;
+        }
+
         double[][] temporary;
 
         for (int i = 0; i < matrix[0].length; i++) {
