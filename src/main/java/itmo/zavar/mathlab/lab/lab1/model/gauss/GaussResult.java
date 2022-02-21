@@ -26,6 +26,30 @@ public final class GaussResult implements Result {
         this.time = time;
     }
 
+    public Matrix getX() {
+        return x;
+    }
+
+    public Matrix getDiscrepancy() {
+        return discrepancy;
+    }
+
+    public Matrix getNewSystem() {
+        return newSystem;
+    }
+
+    public double getInitialDeterminant() {
+        return initialDeterminant;
+    }
+
+    public double getNewDeterminant() {
+        return newDeterminant;
+    }
+
+    public long getTime() {
+        return time;
+    }
+
     @Override
     public List<Object> getRaw() {
         return Arrays.asList(x, discrepancy, newSystem, initialDeterminant, newDeterminant, time);

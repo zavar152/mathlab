@@ -11,7 +11,7 @@ public final class GaussAlgorithm {
 
     public static GaussResult calculate(@NotNull Matrix equationsSystem) throws GaussException {
         Matrix copy = equationsSystem.copy();
-        double initialDeterminant = equationsSystem.getWithoutColumn(equationsSystem.getRowsCount() - 1).determinant();
+        double initialDeterminant = equationsSystem.getWithoutColumn(equationsSystem.getRowsCount()).determinant();
         if(initialDeterminant == 0)
             throw new ZeroDeterminantException("Determinant is 0, there is no solution or there are infinitely many solutions");
         long start = System.nanoTime();
@@ -22,7 +22,7 @@ public final class GaussAlgorithm {
         Matrix x = getAnswer(equationsSystem);
         long time = System.nanoTime() - start;
         Matrix discrepancy = getDiscrepancy(copy, x.getColumn(0));
-        double newDeterminant = equationsSystem.getWithoutColumn(equationsSystem.getRowsCount() - 1).determinant();
+        double newDeterminant = equationsSystem.getWithoutColumn(equationsSystem.getRowsCount()).determinant();
         return new GaussResult(equationsSystem, x, discrepancy, initialDeterminant, newDeterminant, time);
     }
 
