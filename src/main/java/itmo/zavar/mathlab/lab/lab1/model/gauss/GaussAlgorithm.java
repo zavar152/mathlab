@@ -4,26 +4,29 @@ import com.sun.istack.internal.NotNull;
 import itmo.zavar.mathlab.lab.lab1.exception.GaussException;
 import itmo.zavar.mathlab.lab.lab1.exception.ZeroColumnException;
 import itmo.zavar.mathlab.lab.lab1.exception.ZeroDeterminantException;
+import itmo.zavar.mathlab.lab.lab1.exception.ZeroDiagonalException;
 import itmo.zavar.mathlab.lab.lab1.model.matrix.Matrix;
 import itmo.zavar.mathlab.lab.lab1.model.matrix.MatrixCreator;
 
 public final class GaussAlgorithm {
 
-    public static GaussResult calculate(@NotNull Matrix equationsSystem) throws GaussException {
+    public static GaussResult calculate(@NotNull Matrix equationsSystem, boolean enablePivoting) throws GaussException {
+        if(equationsSystem.isZeroDiagonal() && !enablePivoting)
+            throw new ZeroDiagonalException("There are zeros on the diagonal");
         Matrix copy = equationsSystem.copy();
-        double initialDeterminant = equationsSystem.getWithoutColumn(equationsSystem.getRowsCount()).determinant();
-        if(initialDeterminant == 0)
-            throw new ZeroDeterminantException("Determinant is 0, there is no solution or there are infinitely many solutions");
         long start = System.nanoTime();
         for(int i = 0; i < equationsSystem.getRowsCount() - 1; i++) {
-            pivoting(equationsSystem, i);
+            if(enablePivoting)
+                pivoting(equationsSystem, i);
             normalizationAndSubtract(equationsSystem, i);
         }
+        double newDeterminant = equationsSystem.getWithoutColumn(equationsSystem.getRowsCount()).determinant();
+        if(newDeterminant == 0)
+            throw new ZeroDeterminantException("Determinant is 0, there is no solution or there are infinitely many solutions");
         Matrix x = getAnswer(equationsSystem);
         long time = System.nanoTime() - start;
         Matrix discrepancy = getDiscrepancy(copy, x.getColumn(0));
-        double newDeterminant = equationsSystem.getWithoutColumn(equationsSystem.getRowsCount()).determinant();
-        return new GaussResult(equationsSystem, x, discrepancy, initialDeterminant, newDeterminant, time);
+        return new GaussResult(equationsSystem, x, discrepancy, newDeterminant, time);
     }
 
     private static void pivoting(@NotNull Matrix equationsSystem, int col) throws ZeroColumnException {
@@ -34,7 +37,8 @@ public final class GaussAlgorithm {
         }
         if(column[maxAt] == 0)
             throw new ZeroColumnException("Column " + col + " is zero one");
-        equationsSystem.exchangeRows(maxAt, col);
+        if(maxAt != col)
+            equationsSystem.exchangeRows(maxAt, col);
     }
 
     private static void normalizationAndSubtract(@NotNull Matrix equationsSystem, int k) {

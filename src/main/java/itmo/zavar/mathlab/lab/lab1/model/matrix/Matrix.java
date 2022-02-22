@@ -96,6 +96,14 @@ public final class Matrix implements MathObject {
         return new Matrix(name, newMatrix);
     }
 
+    public boolean isZeroDiagonal() {
+        for (int i = 0; i < rows * cols; i++) {
+            if (elements[i / cols][i / cols] == 0)
+                return true;
+        }
+        return false;
+    }
+
     public int getRowsCount() {
         return rows;
     }

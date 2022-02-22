@@ -14,7 +14,7 @@ public class Lab2Workspace extends AbstractWorkspace {
     }
 
     @Override
-    public void calculate() {
+    public void calculate(Object[] args) {
 
     }
 }

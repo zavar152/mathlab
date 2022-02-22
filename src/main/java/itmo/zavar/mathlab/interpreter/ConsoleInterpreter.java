@@ -40,7 +40,7 @@ public final class ConsoleInterpreter {
                         errPrinter.println("Unknown command! Use 'help'");
                     }
                 } catch (CommandException e) {
-                  e.printStackTrace(errPrinter);
+                  errPrinter.println(e.getMessage());
                 } catch (NoSuchElementException e) {
                     errPrinter.println("Input stream is closed!");
                     workspace.requiredShutdown();

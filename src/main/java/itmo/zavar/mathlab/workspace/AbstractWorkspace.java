@@ -26,7 +26,7 @@ public abstract class AbstractWorkspace {
         this.id = id;
     }
 
-    public abstract void calculate();
+    public abstract void calculate(Object[] args);
 
     public final boolean isRequiredShutdown() {
         return requiredShutdown;
