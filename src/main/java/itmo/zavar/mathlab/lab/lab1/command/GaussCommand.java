@@ -29,6 +29,6 @@ public class GaussCommand extends AbstractCommand {
 
     @Override
     public String getHelp() {
-        return null;
+        return "Applies gauss algorithm to get answer";
     }
 }

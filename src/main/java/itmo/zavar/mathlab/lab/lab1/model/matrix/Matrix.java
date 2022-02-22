@@ -97,8 +97,8 @@ public final class Matrix implements MathObject {
     }
 
     public boolean isZeroDiagonal() {
-        for (int i = 0; i < rows * cols; i++) {
-            if (elements[i / cols][i / cols] == 0)
+        for (int i = 0; i < rows; i++) {
+            if (elements[i][i] == 0)
                 return true;
         }
         return false;

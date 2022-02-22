@@ -33,7 +33,7 @@ public final class GaussAlgorithm {
         double[] column = equationsSystem.getColumn(col);
         int maxAt = 0;
         for (int i = col; i < column.length; i++) {
-            maxAt = Math.abs(column[i]) > column[maxAt] ? i : maxAt;
+            maxAt = Math.abs(column[i]) >= column[maxAt] ? i : maxAt;
         }
         if(column[maxAt] == 0)
             throw new ZeroColumnException("Column " + col + " is zero one");

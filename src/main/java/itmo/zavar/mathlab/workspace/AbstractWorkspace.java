@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public abstract class AbstractWorkspace {
 
@@ -44,8 +45,8 @@ public abstract class AbstractWorkspace {
         commandMap.get(name).execute(this, args, inStream, outStream, errStream);
     }
 
-    public final Result getLastResult() {
-        return lastResult;
+    public final Optional<Result> getLastResult() {
+        return Optional.ofNullable(lastResult);
     }
 
     public final void put(String key, MathObject object) {
@@ -54,6 +55,10 @@ public abstract class AbstractWorkspace {
 
     public final void remove(String key) {
         workspaceContainer.remove(key);
+    }
+
+    public final int size() {
+        return workspaceContainer.size();
     }
 
     public final MathObject get(String key) {
