@@ -260,7 +260,7 @@ public final class Matrix implements MathObject {
         return result;
     }
 
-    public void exchangeRows(int from, int to) {
+    public void swapRows(int from, int to) {
         for (int i = 0; i < elements[0].length; i++) {
             double temp = elements[from][i];
             elements[from][i] = elements[to][i];

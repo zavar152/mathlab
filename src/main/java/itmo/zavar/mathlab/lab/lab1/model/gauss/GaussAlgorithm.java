@@ -38,7 +38,7 @@ public final class GaussAlgorithm {
         if(elements[maxAt][col] == 0)
             throw new ZeroColumnException("Column " + col + " is zero one");
         if(maxAt != col)
-            equationsSystem.exchangeRows(maxAt, col);
+            equationsSystem.swapRows(maxAt, col);
     }
 
     private static void normalizationAndSubtract(@NotNull Matrix equationsSystem, int k) {
