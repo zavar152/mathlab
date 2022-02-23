@@ -22,12 +22,17 @@ public class RandomMatrixCommand extends AbstractCommand {
         if(args.length != 3)
             throw new CommandException("Enter a size of matrix and limits for generator");
         try {
+            if(Double.parseDouble((String) args[1]) == Double.parseDouble((String) args[2]))
+                throw new CommandException("");
+
             Matrix matrix = MatrixCreator.getRandomMatrixForGauss("matrix", Integer.parseInt((String) args[0]), Double.parseDouble((String) args[1]), Double.parseDouble((String) args[2]));
             ((PrintStream) outStream).println("Generated matrix:");
             matrix.print(outStream);
             workspace.put("matrix", matrix);
         } catch (ClassCastException e) {
             throw new CommandException("Invalid arguments");
+        } catch (Exception e) {
+            throw new CommandException("Failed to generate");
         }
 
     }

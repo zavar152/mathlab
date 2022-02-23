@@ -8,6 +8,7 @@ import java.lang.reflect.InvocationTargetException;
 
 public class Launcher {
     public static void main(String[] args) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        System.out.println("Loading...");
         Integer id = WorkspaceInitializer.getWorkspaceId();
         AbstractWorkspace workspace = WorkspaceInitializer.createWorkspace(id);
         ConsoleInterpreter interpreter = new ConsoleInterpreter(workspace, System.in, System.out, System.err);

@@ -1,6 +1,5 @@
 package itmo.zavar.mathlab.lab.lab1.model.gauss;
 
-import com.sun.istack.internal.NotNull;
 import itmo.zavar.mathlab.lab.lab1.exception.GaussException;
 import itmo.zavar.mathlab.lab.lab1.exception.ZeroColumnException;
 import itmo.zavar.mathlab.lab.lab1.exception.ZeroDeterminantException;
@@ -10,7 +9,7 @@ import itmo.zavar.mathlab.lab.lab1.model.matrix.MatrixCreator;
 
 public final class GaussAlgorithm {
 
-    public static GaussResult calculate(@NotNull Matrix equationsSystem, boolean enablePivoting) throws GaussException {
+    public static GaussResult calculate(Matrix equationsSystem, boolean enablePivoting) throws GaussException {
         if(equationsSystem.isZeroDiagonal() && !enablePivoting)
             throw new ZeroDiagonalException("There are zeros on the diagonal");
         Matrix copy = equationsSystem.copy();
@@ -29,7 +28,7 @@ public final class GaussAlgorithm {
         return new GaussResult(equationsSystem, x, discrepancy, newDeterminant, time);
     }
 
-    private static void pivoting(@NotNull Matrix equationsSystem, int col) throws ZeroColumnException {
+    private static void pivoting(Matrix equationsSystem, int col) throws ZeroColumnException {
         double[][] elements = equationsSystem.getElements();
         int maxAt = col;
         for (int i = col; i < equationsSystem.getRowsCount(); i++) {
@@ -41,7 +40,7 @@ public final class GaussAlgorithm {
             equationsSystem.swapRows(maxAt, col);
     }
 
-    private static void normalizationAndSubtract(@NotNull Matrix equationsSystem, int k) {
+    private static void normalizationAndSubtract(Matrix equationsSystem, int k) {
         double[][] elements = equationsSystem.getElements();
         for(int i = k + 1; i < equationsSystem.getRowsCount(); i++) {
             double f = elements[i][k] / elements[k][k];
@@ -52,7 +51,7 @@ public final class GaussAlgorithm {
         }
     }
 
-    private static Matrix getAnswer(@NotNull Matrix equationsSystem) {
+    private static Matrix getAnswer(Matrix equationsSystem) {
         double[][] elements = equationsSystem.getElements();
         double[] x = new double[equationsSystem.getRowsCount()];
         for(int i = x.length - 1; i >= 0; i--) {
@@ -66,7 +65,7 @@ public final class GaussAlgorithm {
         return MatrixCreator.fromColumn("X", x);
     }
 
-    private static Matrix getDiscrepancy(@NotNull Matrix initialSystem, double[] x) {
+    private static Matrix getDiscrepancy(Matrix initialSystem, double[] x) {
         double[][] elements = initialSystem.getElements();
         double[] discrepancy = new double[initialSystem.getRowsCount()];
         for(int k = 0; k < x.length; k++) {

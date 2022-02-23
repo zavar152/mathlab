@@ -1,6 +1,5 @@
 package itmo.zavar.mathlab.lab.lab1.model.matrix;
 
-import com.sun.istack.internal.NotNull;
 import itmo.zavar.mathlab.workspace.common.MathObject;
 
 import java.io.ByteArrayOutputStream;
@@ -232,7 +231,7 @@ public final class Matrix implements MathObject {
         return true;
     }
 
-    public static Matrix subMatrix(@NotNull Matrix matrix, String newName, int excludeRow, int excludeCol) {
+    public static Matrix subMatrix(Matrix matrix, String newName, int excludeRow, int excludeCol) {
         Matrix result = new Matrix(newName, matrix.getRowsCount() - 1, matrix.getColumnsCount() - 1);
 
         for (int row = 0, p = 0; row < matrix.getRowsCount(); row++) {
@@ -316,7 +315,7 @@ public final class Matrix implements MathObject {
         return result;
     }
 
-    public void print(@NotNull OutputStream outputStream) {
+    public void print(OutputStream outputStream) {
         PrintStream writer = new PrintStream(outputStream);
         for (int row = 0; row < rows; row++) {
             writer.print("[");
