@@ -40,7 +40,15 @@ public class FromFileCommand extends AbstractCommand {
             throw new CommandException("Reading failed");
         }
 
-        int size = Integer.parseInt(fromFile[0]);
+        int size;
+        try {
+            size = Integer.parseInt(fromFile[0]);
+            if(size <= 0)
+                throw new CommandException("Check matrix size");
+        } catch (NumberFormatException e) {
+            throw new CommandException("Error: " + e.getMessage());
+        }
+
         PrintStream printStream = new PrintStream(outStream);
         double[][] elements = new double[size][size + 1];
 
