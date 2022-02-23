@@ -10,6 +10,8 @@ import itmo.zavar.mathlab.lab.lab1.model.matrix.MatrixCreator;
 public final class GaussAlgorithm {
 
     public static GaussResult calculate(Matrix equationsSystem, boolean enablePivoting) throws GaussException {
+        if(equationsSystem.getRowsCount() != equationsSystem.getColumnsCount() - 1)
+            throw new GaussException("Check your system");
         if(equationsSystem.isZeroDiagonal() && !enablePivoting)
             throw new ZeroDiagonalException("There are zeros on the diagonal");
         Matrix copy = equationsSystem.copy();
