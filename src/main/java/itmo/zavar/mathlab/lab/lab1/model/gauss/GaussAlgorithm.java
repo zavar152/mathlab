@@ -15,7 +15,7 @@ public final class GaussAlgorithm {
             throw new ZeroDiagonalException("There are zeros on the diagonal");
         Matrix copy = equationsSystem.copy();
         long start = System.nanoTime();
-        for(int i = 0; i < equationsSystem.getRowsCount() - 1; i++) {
+        for(int i = 0; i < equationsSystem.getRowsCount(); i++) {
             if(enablePivoting)
                 pivoting(equationsSystem, i);
             normalizationAndSubtract(equationsSystem, i);
@@ -30,12 +30,12 @@ public final class GaussAlgorithm {
     }
 
     private static void pivoting(@NotNull Matrix equationsSystem, int col) throws ZeroColumnException {
-        double[] column = equationsSystem.getColumn(col);
-        int maxAt = 0;
-        for (int i = col; i < column.length; i++) {
-            maxAt = Math.abs(column[i]) >= column[maxAt] ? i : maxAt;
+        double[][] elements = equationsSystem.getElements();
+        int maxAt = col;
+        for (int i = col; i < equationsSystem.getRowsCount(); i++) {
+            maxAt = Math.abs(elements[i][col]) > elements[maxAt][col] ? i : maxAt;
         }
-        if(column[maxAt] == 0)
+        if(elements[maxAt][col] == 0)
             throw new ZeroColumnException("Column " + col + " is zero one");
         if(maxAt != col)
             equationsSystem.exchangeRows(maxAt, col);

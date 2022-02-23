@@ -47,8 +47,16 @@ public final class Matrix implements MathObject {
         elements[row][col] = value;
     }
 
+    //bullshit
     public Matrix copy() {
-        return new Matrix(name, getCopyElements());
+
+        double[][] upd = new double[rows][cols];
+
+        for (int i = 0; i < rows * cols; i++) {
+            upd[i / cols][i % cols] = elements[i / cols][i % cols];
+        }
+
+        return new Matrix(name, upd);
     }
 
     public double[] getRow(int i) {
@@ -280,7 +288,7 @@ public final class Matrix implements MathObject {
             return (result);
         }
 
-        if(isLowerTriangular() || isUpperTriangular()) {
+        if (isLowerTriangular() || isUpperTriangular()) {
             result = 1;
             for (int i = 0; i < cols; i++) {
                 result *= elements[i][i];
