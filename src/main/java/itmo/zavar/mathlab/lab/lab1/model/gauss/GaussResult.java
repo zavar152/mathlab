@@ -68,10 +68,10 @@ public final class GaussResult implements Result {
         for (int i = 0; i < x.getRowsCount(); i++) {
             printStream.printf("%3d", (i + 1));
             printStream.print(":   [");
-            printStream.printf("%9.3f", x.getElements()[i][0]);
+            printStream.printf("%9.20f", x.getElements()[i][0]);
             printStream.print("]   ");
             printStream.print("[");
-            printStream.printf("%9.3f", discrepancy.getElements()[i][0]);
+            printStream.printf("%9.20f", discrepancy.getElements()[i][0]);
             printStream.println("]");
         }
     }

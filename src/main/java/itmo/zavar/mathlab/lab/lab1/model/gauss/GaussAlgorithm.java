@@ -22,11 +22,11 @@ public final class GaussAlgorithm {
             normalizationAndSubtract(equationsSystem, i);
         }
         double newDeterminant = equationsSystem.getWithoutColumn(equationsSystem.getRowsCount()).determinant();
-        if(newDeterminant == 0)
+        if(newDeterminant == 0 || Double.isNaN(newDeterminant))
             throw new ZeroDeterminantException("Determinant is 0, there is no solution or there are infinitely many solutions");
         Matrix x = getAnswer(equationsSystem);
         long time = System.nanoTime() - start;
-        Matrix discrepancy = getDiscrepancy(copy, x.getColumn(0));
+        Matrix discrepancy = getDiscrepancy(copy, x.getRow(0));
         return new GaussResult(equationsSystem, x, discrepancy, newDeterminant, time);
     }
 
