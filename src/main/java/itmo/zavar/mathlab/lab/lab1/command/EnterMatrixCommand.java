@@ -32,7 +32,7 @@ public class EnterMatrixCommand extends AbstractCommand {
             throw new CommandException("Enter a number");
         }
 
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(inStream);
         PrintStream printStream = new PrintStream(outStream);
         double[][] elements = new double[size][size + 1];
 
