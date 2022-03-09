@@ -41,6 +41,7 @@ public class TangentResult implements Result {
     @Override
     public void print(OutputStream outputStream) {
         PrintStream printStream = new PrintStream(outputStream);
+        printStream.println("---Tangent method---");
         printStream.println("Function: ");
         printStream.println(function.getFunction().getFunctionExpressionString());
         printStream.println();
@@ -49,5 +50,6 @@ public class TangentResult implements Result {
         printStream.println();
         printStream.println("Iterations: ");
         printStream.println(iterations);
+        printStream.println();
     }
 }

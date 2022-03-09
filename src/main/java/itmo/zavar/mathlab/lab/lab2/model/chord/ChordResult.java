@@ -12,10 +12,16 @@ public final class ChordResult implements Result {
 
     private final FunctionWithDerivative function;
     private final double answer;
+    private final int iterations;
 
-    public ChordResult(FunctionWithDerivative function, double answer) {
+    public ChordResult(FunctionWithDerivative function, double answer, int iterations) {
         this.function = function;
         this.answer = answer;
+        this.iterations = iterations;
+    }
+
+    public int getIterations() {
+        return iterations;
     }
 
     public FunctionWithDerivative getFunction() {
@@ -34,10 +40,12 @@ public final class ChordResult implements Result {
     @Override
     public void print(OutputStream outputStream) {
         PrintStream printStream = new PrintStream(outputStream);
+        printStream.println("---Chord method---");
         printStream.println("Function: ");
         printStream.println(function.getFunction().getFunctionExpressionString());
         printStream.println();
         printStream.println("Answer: ");
         printStream.println(answer);
+        printStream.println();
     }
 }
