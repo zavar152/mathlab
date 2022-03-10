@@ -1,6 +1,5 @@
 package itmo.zavar.mathlab.command.general;
 
-import itmo.zavar.mathlab.annotation.Command;
 import itmo.zavar.mathlab.annotation.CommandGeneral;
 import itmo.zavar.mathlab.command.AbstractCommand;
 import itmo.zavar.mathlab.exception.CommandException;

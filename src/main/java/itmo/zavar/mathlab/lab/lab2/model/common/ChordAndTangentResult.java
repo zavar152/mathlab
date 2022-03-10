@@ -38,7 +38,9 @@ public final class ChordAndTangentResult implements Result {
         tangentResult.print(outputStream);
         chordResult.print(outputStream);
         printStream.println("Difference: ");
-        printStream.println(Math.abs(tangentResult.getAnswer() - chordResult.getAnswer()));
+        double dif = Math.abs(tangentResult.getAnswer() - chordResult.getAnswer());
+        printStream.printf("%9.20f", dif);
+        printStream.println(" or " + dif);
         printStream.println();
     }
 }

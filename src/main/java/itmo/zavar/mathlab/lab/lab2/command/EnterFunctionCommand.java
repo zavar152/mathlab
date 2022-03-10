@@ -3,7 +3,7 @@ package itmo.zavar.mathlab.lab.lab2.command;
 import itmo.zavar.mathlab.annotation.Command;
 import itmo.zavar.mathlab.command.AbstractCommand;
 import itmo.zavar.mathlab.exception.CommandException;
-import itmo.zavar.mathlab.lab.lab2.model.FunctionWithDerivative;
+import itmo.zavar.mathlab.lab.lab2.model.SimpleFunction;
 import itmo.zavar.mathlab.workspace.AbstractWorkspace;
 import org.mariuszgromada.math.mxparser.Function;
 
@@ -39,24 +39,8 @@ public class EnterFunctionCommand extends AbstractCommand {
             }
         } while (!function.checkSyntax());
 
-        printOutStream.println("Enter function's derivative:");
-
-        Function derivative;
-
-        do {
-            String enteredFunction = scanner.nextLine();
-            derivative = new Function(enteredFunction);
-            if(!derivative.checkSyntax())
-                printOutStream.println(derivative.getErrorMessage());
-            else if(derivative.getArgumentsNumber() != 1) {
-                printOutStream.println("Arguments number should be 1 only");
-                derivative = new Function("");
-            }
-        } while (!derivative.checkSyntax());
-
-        workspace.put("enteredFunction", new FunctionWithDerivative("function", function, derivative));
+        workspace.put("enteredFunction", new SimpleFunction("function", function));
         printOutStream.println("Your function: " + function.getFunctionExpressionString());
-        printOutStream.println("Function's derivative: " + derivative.getFunctionExpressionString());
     }
 
     @Override

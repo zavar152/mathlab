@@ -3,24 +3,18 @@ package itmo.zavar.mathlab.lab.lab2.model;
 import itmo.zavar.mathlab.workspace.common.MathObject;
 import org.mariuszgromada.math.mxparser.Function;
 
-public final class FunctionWithDerivative implements MathObject {
+public final class SimpleFunction implements MathObject {
 
-    private final Function derivative;
     private final Function function;
     private final String name;
 
-    public FunctionWithDerivative(String name, Function function, Function derivative) {
+    public SimpleFunction(String name, Function function) {
         this.function = function;
-        this.derivative = derivative;
         this.name = name;
     }
 
     public Function getFunction() {
         return function;
-    }
-
-    public Function getDerivative() {
-        return derivative;
     }
 
     @Override
