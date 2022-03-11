@@ -13,11 +13,15 @@ public class TangentResult implements Result {
     private final SimpleFunction function;
     private final double answer;
     private final int iterations;
+    private final long time;
+    private final double discrepancy;
 
-    public TangentResult(SimpleFunction function, double answer, int iterations) {
+    public TangentResult(SimpleFunction function, double answer, int iterations, long time, double discrepancy) {
         this.function = function;
         this.answer = answer;
         this.iterations = iterations;
+        this.discrepancy = discrepancy;
+        this.time = time;
     }
 
     public int getIterations() {
@@ -50,6 +54,11 @@ public class TangentResult implements Result {
         printStream.println();
         printStream.println("Iterations: ");
         printStream.println(iterations);
+        printStream.println("Discrepancy: ");
+        printStream.printf("%9.20f", discrepancy);
+        printStream.println(" or " + discrepancy);
+        printStream.println("Time (ns): ");
+        printStream.println(time);
         printStream.println();
     }
 }

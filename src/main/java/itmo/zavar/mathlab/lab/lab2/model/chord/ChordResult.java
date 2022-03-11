@@ -13,11 +13,23 @@ public final class ChordResult implements Result {
     private final SimpleFunction function;
     private final double answer;
     private final int iterations;
+    private final long time;
+    private final double discrepancy;
 
-    public ChordResult(SimpleFunction function, double answer, int iterations) {
+    public ChordResult(SimpleFunction function, double answer, int iterations, long time, double discrepancy) {
         this.function = function;
         this.answer = answer;
         this.iterations = iterations;
+        this.time = time;
+        this.discrepancy = discrepancy;
+    }
+
+    public long getTime() {
+        return time;
+    }
+
+    public double getDiscrepancy() {
+        return discrepancy;
     }
 
     public int getIterations() {
@@ -50,6 +62,11 @@ public final class ChordResult implements Result {
         printStream.println();
         printStream.println("Iterations: ");
         printStream.println(iterations);
+        printStream.println("Discrepancy: ");
+        printStream.printf("%9.20f", discrepancy);
+        printStream.println(" or " + discrepancy);
+        printStream.println("Time (ns): ");
+        printStream.println(time);
         printStream.println();
     }
 }
