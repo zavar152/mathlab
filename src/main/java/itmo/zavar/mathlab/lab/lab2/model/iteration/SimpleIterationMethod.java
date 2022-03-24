@@ -2,6 +2,8 @@ package itmo.zavar.mathlab.lab.lab2.model.iteration;
 
 import org.mariuszgromada.math.mxparser.Function;
 
+import java.util.Arrays;
+
 public final class SimpleIterationMethod {
 
     public static SimpleIterationResult calculation(Function[] functions, double eps) {

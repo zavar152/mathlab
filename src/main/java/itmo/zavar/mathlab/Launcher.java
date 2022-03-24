@@ -2,6 +2,7 @@ package itmo.zavar.mathlab;
 
 import itmo.zavar.mathlab.interpreter.ConsoleInterpreter;
 import itmo.zavar.mathlab.lab.lab2.model.iteration.SimpleIterationMethod;
+import itmo.zavar.mathlab.lab.lab3.model.TrapezoidMethod;
 import itmo.zavar.mathlab.workspace.AbstractWorkspace;
 import itmo.zavar.mathlab.workspace.WorkspaceInitializer;
 import org.mariuszgromada.math.mxparser.Argument;
@@ -12,6 +13,9 @@ import java.lang.reflect.InvocationTargetException;
 
 public class Launcher {
     public static void main(String[] args) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+
+        //TrapezoidMethod.calculate(new Expression("0"), new Expression("pi"), 10, new Function("f(x)=sin(x)"));
+
         System.out.println("Loading...");
         Integer id = WorkspaceInitializer.getWorkspaceId();
         AbstractWorkspace workspace = WorkspaceInitializer.createWorkspace(id);
