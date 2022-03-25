@@ -13,10 +13,10 @@ public final class TrapezoidResult implements Result {
     public final double result;
     public final double n;
     public final double r;
-    public final double time;
+    public final long time;
     public final Function function;
 
-    public TrapezoidResult(double result, Function function, double n, double r, double time) {
+    public TrapezoidResult(double result, Function function, double n, double r, long time) {
         this.function = function;
         this.r = r;
         this.n = n;
@@ -59,8 +59,7 @@ public final class TrapezoidResult implements Result {
         printStream.println("R: ");
         printStream.printf("%9.20f", r);
         printStream.println(" or " + r);
-        printStream.println("Time (ns): ");
-        printStream.println(time);
+        printStream.printf("Time (ns):\n%d%n", time);
         printStream.println();
     }
 }

@@ -39,6 +39,11 @@ public class Lab3Workspace extends AbstractWorkspace {
         Expression bExp = new Expression((String) args[2]);
         int n = Integer.parseInt((String) args[3]);
 
+        if(!aExp.checkSyntax())
+            throw new CalculationException("Check a: \n" + aExp.getErrorMessage());
+        if(!bExp.checkSyntax())
+            throw new CalculationException("Check b: \n" + bExp.getErrorMessage());
+
         lastResult = TrapezoidMethod.calculate(aExp, bExp, n, simpleFunction.getFunction());
         lastResult.print((OutputStream) args[0]);
     }
