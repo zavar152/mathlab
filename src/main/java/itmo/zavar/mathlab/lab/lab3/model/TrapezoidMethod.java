@@ -55,7 +55,7 @@ public final class TrapezoidMethod {
         Arrays.sort(fDerivative);
         double r = fDerivative[fDerivative.length-1] * n * Math.pow(length, 3) / 12;
 
-        if(r > result)
+        if(Math.abs(r) > Math.abs(result))
             throw new CalculationException("R is bigger than result, may be it's divergent integral");
 
         return new TrapezoidResult(result, function, n, r, time);
