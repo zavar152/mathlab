@@ -13,27 +13,33 @@ import org.mariuszgromada.math.mxparser.Function;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public final class SplineMethod {
 
-    public static void calculate(Double[] x, Double[] y, Function realFunction, double delta, SwingWrapper wrap, XYChart chart) {
+    public static void calculate(double[] x, double[] y, Function realFunction, double delta, SwingWrapper<XYChart> wrap, XYChart chart) {
         int n = x.length;
         int equations = 4 * (n - 1);
 
         double[][] matrix = new double[equations][equations + 1];
-        double[][] firstCoefficients = new double[n][n - 1];
+        double[][] firstCoefficients = new double[n][4];
 
         for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n - 1; j++) {
+            for (int j = 0; j < 4; j++) {
                 firstCoefficients[i][j] = Math.pow(x[i], j);
             }
         }
-
-        for (int j = 0; j < n - 1; j++) {
-            for (int i = 0; i < n - 1; i++) {
-                matrix[i][i + j * (n - 1)] = firstCoefficients[i][j];
+        for (int i = 0; i < n - 1; i++) {
+            int k = 0;
+            for (int j = 0; j < equations; j += n - 1) {
+                matrix[i][j + i] = firstCoefficients[i][k];
+                k += 1;
             }
-            matrix[n - 1][n - 2 + j * (n - 1)] = firstCoefficients[n - 1][j];
+        }
+        int f = 0;
+        for (int j = n - 1; j <= equations; j += n - 1) {
+            matrix[n - 1][j - 1] = firstCoefficients[n - 1][f];
+            f++;
         }
         for (int i = 0; i < n; i++) {
             matrix[i][equations] = y[i];
@@ -53,7 +59,7 @@ public final class SplineMethod {
 
         for (int i = 0; i < n - 2; i++) {
             int k = 0;
-            for (int j = 0; j < equations; j += 4) {
+            for (int j = 0; j < equations; j += n - 1) {
                 matrix[n + i][j + i] = secondCoefficients[i][k];
                 matrix[n + i][j + 1 + i] = secondCoefficients[i][k + 1];
                 k += 2;
@@ -73,7 +79,7 @@ public final class SplineMethod {
 
         for (int i = 0; i < n - 2; i++) {
             int k = 0;
-            for (int j = 4; j < equations; j += 4) {
+            for (int j = n - 1; j < equations; j += n - 1) {
                 matrix[n - 2 + n + i][j + i] = thirdCoefficients[i][k];
                 matrix[n - 2 + n + i][j + 1 + i] = thirdCoefficients[i][k + 1];
                 k += 2;
@@ -97,7 +103,7 @@ public final class SplineMethod {
 
         for (int i = 0; i < n - 2; i++) {
             int k = 0;
-            for (int j = 8; j < equations; j += 4) {
+            for (int j = 2 * (n - 1); j < equations; j += n - 1) {
                 matrix[2 * (n - 2) + n + i][j + i] = forthCoefficients[i][k];
                 matrix[2 * (n - 2) + n + i][j + 1 + i] = forthCoefficients[i][k + 1];
                 k += 2;
@@ -121,12 +127,13 @@ public final class SplineMethod {
         for (int i = 0; i < n - 1; i++) {
             int k = 0;
             StringBuilder formula = new StringBuilder("f(x)=");
-            for (int j = i; j < equations; j+=4) {
-                formula.append(coefs[j] > 0 ? "+" + coefs[j] : coefs[j]).append("*x^").append(k);
+            for (int j = i; j < equations; j+=n-1) {
+                formula.append(coefs[j] >= 0 ? "+" + coefs[j] : coefs[j]).append("*x^").append(k);
                 k++;
             }
             functions[i] = new Function(formula.toString());
         }
+
 
         ArrayList<Double> splineDotY = new ArrayList<>();
         ArrayList<Double> splineDotX = new ArrayList<>();

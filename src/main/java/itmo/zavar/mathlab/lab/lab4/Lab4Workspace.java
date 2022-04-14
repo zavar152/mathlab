@@ -14,25 +14,12 @@ import java.util.HashMap;
 @Workspace(name = "lab4", id = 4)
 public class Lab4Workspace extends AbstractWorkspace {
 
+    private final XYChart chart;
+    private final SwingWrapper<XYChart> wrap;
+
     protected Lab4Workspace(HashMap<String, AbstractCommand> commandMap, String name, int id) {
         super(commandMap, name, id);
-    }
-
-    @Override
-    public void calculate(Object[] args) throws CalculationException {
-        if (workspaceContainer.size() == 0)
-            throw new CalculationException("No elements in workspace");
-
-        if (args.length != 4)
-            throw new CalculationException("Check input arguments");
-
-
-        Double[] x = (Double[]) args[0];
-        Double[] y = (Double[]) args[1];
-        Function realFunction = (Function) args[2];
-        double delta = (double) args[3];
-
-        XYChart chart = new XYChartBuilder()
+        chart = new XYChartBuilder()
                 .width(800)
                 .height(600)
                 .title("Метод кубических сплайнов")
@@ -40,13 +27,23 @@ public class Lab4Workspace extends AbstractWorkspace {
                 .yAxisTitle("Y")
                 .build();
 
-        SwingWrapper wrap = new SwingWrapper(chart);
+        wrap = new SwingWrapper<>(chart);
         wrap.displayChart();
+    }
 
-        try {
-            SplineMethod.calculate(x, y, realFunction, delta, wrap, chart);
-        } catch (Exception e) {
-            throw new CalculationException(e.getMessage());
-        }
+    @Override
+    public void calculate(Object[] args) throws CalculationException {
+        if (args.length != 4)
+            throw new CalculationException("Check input arguments");
+
+
+        double[] x = (double[]) args[0];
+        double[] y = (double[]) args[1];
+        Function realFunction = (Function) args[2];
+        double delta = (double) args[3];
+
+
+        chart.getSeriesMap().clear();
+        SplineMethod.calculate(x, y, realFunction, delta, wrap, chart);
     }
 }
