@@ -118,7 +118,6 @@ public final class SplineMethod {
 
         RealVector b = new ArrayRealVector(m.getColumn(equations),false);
         RealMatrix a = new Array2DRowRealMatrix(m.getWithoutColumn(equations).getElements(),false);
-
         DecompositionSolver solver = new LUDecomposition(a).getSolver();
         RealVector solution = solver.solve(b);
         double[] coefs = solution.toArray();
