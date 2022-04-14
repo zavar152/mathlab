@@ -12,6 +12,7 @@ import org.knowm.xchart.style.markers.None;
 import org.mariuszgromada.math.mxparser.Function;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -162,14 +163,6 @@ public final class SplineMethod {
                 realX.add(j);
             }
         }
-
-
-
-        chart.getStyler().setChartTitleVisible(true);
-        chart.getStyler().setLegendPosition(Styler.LegendPosition.InsideN);
-        chart.getStyler().setYAxisLogarithmic(false);
-        chart.getStyler().setXAxisLabelRotation(45);
-        chart.getStyler().setMarkerSize(10);
 
         chart.addSeries("dots", splineDotX, splineDotY);
         chart.addSeries("spline", functionX, functionY);
