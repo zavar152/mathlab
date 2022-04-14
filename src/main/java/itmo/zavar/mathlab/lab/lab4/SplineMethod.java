@@ -172,13 +172,13 @@ public final class SplineMethod {
         chart.getStyler().setMarkerSize(10);
 
         chart.addSeries("dots", splineDotX, splineDotY);
-        chart.addSeries("function", functionX, functionY);
-        chart.addSeries("real", realX, realY);
+        chart.addSeries("spline", functionX, functionY);
+        chart.addSeries("function", realX, realY);
 
+        chart.getSeriesMap().get("spline").setMarker(new None());
+        chart.getSeriesMap().get("spline").setLineWidth(2.7F);
         chart.getSeriesMap().get("function").setMarker(new None());
-        chart.getSeriesMap().get("function").setLineWidth(2.7F);
-        chart.getSeriesMap().get("real").setMarker(new None());
-        chart.getSeriesMap().get("real").setLineWidth(0.7F);
+        chart.getSeriesMap().get("function").setLineWidth(0.7F);
         chart.getSeriesMap().get("dots").setShowInLegend(false);
         chart.getSeriesMap().get("dots").setXYSeriesRenderStyle(XYSeries.XYSeriesRenderStyle.Scatter);
 
