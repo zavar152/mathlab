@@ -7,6 +7,7 @@ import itmo.zavar.mathlab.workspace.AbstractWorkspace;
 import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYChartBuilder;
+import org.knowm.xchart.internal.series.Series;
 import org.knowm.xchart.style.Styler;
 import org.mariuszgromada.math.mxparser.Function;
 
@@ -60,8 +61,6 @@ public class Lab4Workspace extends AbstractWorkspace {
         Function realFunction = (Function) args[2];
         double delta = (double) args[3];
 
-
-        chart.getSeriesMap().clear();
         SplineMethod.calculate(x, y, realFunction, delta, wrap, chart);
     }
 }
