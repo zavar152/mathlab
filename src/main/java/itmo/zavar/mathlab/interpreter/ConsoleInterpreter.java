@@ -46,6 +46,7 @@ public final class ConsoleInterpreter {
                     workspace.requiredShutdown();
                 }
             }
+            System.exit(0);
         }).start();
     }
 }

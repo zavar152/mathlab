@@ -1,4 +1,4 @@
-package itmo.zavar.mathlab.lab.lab4;
+package itmo.zavar.mathlab.lab.lab4.command;
 
 import itmo.zavar.mathlab.annotation.Command;
 import itmo.zavar.mathlab.command.AbstractCommand;
