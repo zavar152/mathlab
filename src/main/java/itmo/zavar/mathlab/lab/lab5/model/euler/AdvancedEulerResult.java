@@ -1,4 +1,4 @@
-package itmo.zavar.mathlab.lab.lab5;
+package itmo.zavar.mathlab.lab.lab5.model.euler;
 
 import com.google.common.collect.Lists;
 import itmo.zavar.mathlab.lab.lab1.model.matrix.MatrixCreator;

@@ -1,4 +1,4 @@
-package itmo.zavar.mathlab.lab.lab5;
+package itmo.zavar.mathlab.lab.lab5.model;
 
 import com.google.common.collect.Lists;
 import itmo.zavar.mathlab.workspace.common.Result;

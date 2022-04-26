@@ -1,4 +1,4 @@
-package itmo.zavar.mathlab.lab.lab5;
+package itmo.zavar.mathlab.lab.lab5.model.euler;
 
 import org.mariuszgromada.math.mxparser.Function;
 

@@ -1,4 +1,4 @@
-package itmo.zavar.mathlab.lab.lab5;
+package itmo.zavar.mathlab.lab.lab5.model;
 
 import org.apache.commons.math3.linear.*;
 import org.mariuszgromada.math.mxparser.Function;
